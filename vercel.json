@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "client/dist/browser/**",   "use": "@vercel/static"  },
+    { "src": "api/parsePrompt.ts",       "use": "@vercel/node"    },
+    { "src": "api/generateProject.ts",   "use": "@vercel/node"    },
+    { "src": "api/validateStack.ts",     "use": "@vercel/node"    },
+    { "src": "api/getTemplates.ts",      "use": "@vercel/node"    },
+    { "src": "api/createRepo.ts",        "use": "@vercel/node"    },
+    { "src": "api/pushRepo.ts",          "use": "@vercel/node"    },
+    { "src": "api/deployProject.ts",     "use": "@vercel/node"    }
+  ],
+  "routes": [
+    { "src": "/api/parsePrompt",     "dest": "/api/parsePrompt.ts",     "methods": ["POST","OPTIONS"] },
+    { "src": "/api/generateProject", "dest": "/api/generateProject.ts", "methods": ["POST","OPTIONS"] },
+    { "src": "/api/validateStack",   "dest": "/api/validateStack.ts",   "methods": ["POST","OPTIONS"] },
+    { "src": "/api/getTemplates",    "dest": "/api/getTemplates.ts",    "methods": ["GET","OPTIONS"]  },
+    { "src": "/api/createRepo",      "dest": "/api/createRepo.ts",      "methods": ["POST","OPTIONS"] },
+    { "src": "/api/pushRepo",        "dest": "/api/pushRepo.ts",        "methods": ["POST","OPTIONS"] },
+    { "src": "/api/deployProject",   "dest": "/api/deployProject.ts",  "methods": ["POST","OPTIONS"] },
+    { "src": "/(.*\\.(js|css|ico|png|svg|woff2?|map|txt)$)", "dest": "/client/dist/browser/$1" },
+    { "src": "/(.*)", "dest": "/client/dist/browser/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin",  "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" },
+        { "key": "Cache-Control",                "value": "no-store" }
+      ]
+    }
+  ],
+  "outputDirectory": "client/dist/browser",
+  "framework": null
+}
